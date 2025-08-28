@@ -3,18 +3,38 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 async function main() {
-	await prisma.game.createMany({
-		data: [
-			{ name: 'Chess' },
-			{ name: 'Checkers' },
-			{ name: 'Go' },
-			{ name: 'Tic Tac Toe' },
-		],
-		skipDuplicates: true, // Skip duplicates based on the unique constraint
+	const user1 = await prisma.user.create({
+		data: {
+			login: 'player1',
+			passwordHash: 'hash1',
+			rating: 1200,
+		},
 	})
-
-	const allGames = await prisma.game.findMany()
-	console.log(allGames)
+	const user2 = await prisma.user.create({
+		data: {
+			login: 'player2',
+			passwordHash: 'hash1',
+			rating: 1600,
+		},
+	})
+	// await prisma.game.create({
+	// 	data: {
+	// 		status: 'idle',
+	// 		players: {
+	// 			connect: { id: user1.id },
+	// 		},
+	// 		field: Array(9).fill(null),
+	// 	},
+	// })
+	// await prisma.game.create({
+	// 	data: {
+	// 		status: 'idle',
+	// 		players: {
+	// 			connect: { id: user2.id },
+	// 		},
+	// 		field: Array(9).fill(null),
+	// 	},
+	// })
 }
 
 main()
