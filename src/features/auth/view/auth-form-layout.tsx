@@ -16,7 +16,7 @@ export function AuthFormLayout({
 	actions,
 	link,
 	error,
-	onSubmit,
+	formAction,
 }: {
 	title?: string
 	description?: string
@@ -24,7 +24,7 @@ export function AuthFormLayout({
 	actions?: React.ReactNode
 	link?: React.ReactNode
 	error?: React.ReactNode
-	onSubmit?: React.FormEventHandler<HTMLFormElement>
+	formAction?: (formData: FormData) => void
 }) {
 	return (
 		<Card className='w-full max-w-md'>
@@ -37,7 +37,7 @@ export function AuthFormLayout({
 				</CardDescription>
 			</CardHeader>
 			<CardContent className='flex flex-col gap-4'>
-				<form onSubmit={onSubmit} className='space-y-4'>
+				<form action={formAction} className='space-y-4'>
 					{fields}
 					{error}
 					{actions}

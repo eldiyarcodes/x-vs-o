@@ -1,4 +1,4 @@
-import { getIdleGames } from '@/features/game/server'
+import { getIdleGames } from '@/entities/game/server'
 import GameCard from '../view/game-card'
 import { Layout } from '../view/layout'
 import { CreateButton } from './create-button'

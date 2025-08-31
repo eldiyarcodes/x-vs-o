@@ -2,17 +2,7 @@ import { Input } from '@/shared/ui/input'
 import { Label } from '@/shared/ui/label'
 import { useId } from 'react'
 
-export function AuthFormFields({
-	login,
-	password,
-	onChangeLogin,
-	onChangePassword,
-}: {
-	login: string
-	password: string
-	onChangeLogin: (login: string) => void
-	onChangePassword: (password: string) => void
-}) {
+export function AuthFormFields() {
 	const loginId = useId()
 	const passwordId = useId()
 
@@ -20,15 +10,14 @@ export function AuthFormFields({
 		<>
 			<div className='space-y-2'>
 				<Label htmlFor={loginId} className='text-sm font-medium'>
-					Email Address
+					Login
 				</Label>
 				<Input
 					id={loginId}
-					type='email'
-					placeholder='Enter your email'
+					type='text'
+					name='login'
+					placeholder='Enter your login'
 					className='w-full'
-					value={login}
-					onChange={e => onChangeLogin(e.target.value)}
 					required
 				/>
 			</div>
@@ -39,10 +28,9 @@ export function AuthFormFields({
 				<Input
 					id={passwordId}
 					type='password'
+					name='password'
 					placeholder='Create a password'
 					className='w-full'
-					value={password}
-					onChange={e => onChangePassword(e.target.value)}
 					required
 				/>
 			</div>

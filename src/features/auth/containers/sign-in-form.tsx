@@ -17,14 +17,7 @@ export function SignInForm() {
 		<AuthFormLayout
 			title='Sign In to Your Account'
 			description='Welcome back! Please enter your details'
-			fields={
-				<AuthFormFields
-					login=''
-					password=''
-					onChangeLogin={() => {}}
-					onChangePassword={() => {}}
-				/>
-			}
+			fields={<AuthFormFields />}
 			error={<ErrorMessage error={right(null)} />}
 			onSubmit={handleSubmit}
 			actions={<SubmitButton>Sign In</SubmitButton>}

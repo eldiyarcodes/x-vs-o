@@ -2,7 +2,11 @@ import { prisma } from '@/shared/lib/db'
 import { removePassword } from '@/shared/lib/password'
 import { Game, Prisma, User } from '@prisma/client'
 import { z } from 'zod'
-import { GameEntity, GameIdleEntity, GameOverEntity } from '../domain'
+import {
+	GameEntity,
+	GameIdleEntity,
+	GameOverEntity,
+} from '../../../entities/game/domain'
 
 async function gameList(where?: Prisma.GameWhereInput): Promise<GameEntity[]> {
 	const games = await prisma.game.findMany({
