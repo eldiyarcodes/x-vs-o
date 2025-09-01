@@ -2,7 +2,13 @@ import { Input } from '@/shared/ui/input'
 import { Label } from '@/shared/ui/label'
 import { useId } from 'react'
 
-export function AuthFormFields() {
+export function AuthFormFields({
+	formData,
+	errors,
+}: {
+	formData?: FormData
+	errors?: { login?: string; password?: string }
+}) {
 	const loginId = useId()
 	const passwordId = useId()
 
@@ -19,7 +25,11 @@ export function AuthFormFields() {
 					placeholder='Enter your login'
 					className='w-full'
 					required
+					defaultValue={formData?.get('login')?.toString()}
 				/>
+				{errors?.login && (
+					<div className='text-[12px] text-destructive'>{errors.login}</div>
+				)}
 			</div>
 			<div className='space-y-2'>
 				<Label htmlFor={passwordId} className='text-sm font-medium'>
@@ -32,7 +42,11 @@ export function AuthFormFields() {
 					placeholder='Create a password'
 					className='w-full'
 					required
+					defaultValue={formData?.get('password')?.toString()}
 				/>
+				{errors?.password && (
+					<div className='text-[12px] text-destructive'>{errors.password}</div>
+				)}
 			</div>
 		</>
 	)

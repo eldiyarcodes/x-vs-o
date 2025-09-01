@@ -52,7 +52,9 @@ async function verifySession() {
 	const cookie = (await cookies()).get('session')?.value
 	const session = await decrypt(cookie)
 
-	if (session.type === 'left') redirect('/sign-in')
+	if (session.type === 'left') {
+		redirect('/sign-in')
+	}
 
 	return { isAuth: true, session: session.value }
 }
