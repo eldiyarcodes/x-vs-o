@@ -1,4 +1,7 @@
 import { getIdleGames } from '@/entities/game/server'
+import { routes } from '@/kernel/routes'
+import { Button } from '@/shared/ui/button'
+import Link from 'next/link'
 import GameCard from '../view/game-card'
 import { Layout } from '../view/layout'
 import { CreateButton } from './create-button'
@@ -13,6 +16,11 @@ export async function GamesList() {
 					key={game.id}
 					login={game.creator.login}
 					rating={game.creator.rating}
+					actions={
+						<Button asChild>
+							<Link href={routes.game(game.id)}>Join</Link>
+						</Button>
+					}
 				/>
 			))}
 		</Layout>
