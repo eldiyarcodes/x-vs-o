@@ -1,4 +1,4 @@
-import { left, right } from '@/shared/lib/either'
+import { Either, left, right } from '@/shared/lib/either'
 import { jwtVerify, SignJWT } from 'jose'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
@@ -16,14 +16,16 @@ async function encrypt(payload: SessionEntity) {
 		.sign(encodeKey)
 }
 
-async function decrypt(session: string | undefined = '') {
+async function decrypt(
+	session: string | undefined = ''
+): Promise<Either<Error, SessionEntity>> {
 	try {
 		const { payload } = await jwtVerify(session, encodeKey, {
 			algorithms: ['HS256'],
 		})
-		return right(payload)
+		return right(payload as SessionEntity)
 	} catch (err) {
-		return left(err)
+		return left(err as Error)
 	}
 }
 
@@ -48,7 +50,10 @@ async function deleteSession() {
 	cookieStore.delete('session')
 }
 
-async function verifySession() {
+async function verifySession(): Promise<{
+	isAuth: true
+	session: SessionEntity
+}> {
 	const cookie = (await cookies()).get('session')?.value
 	const session = await decrypt(cookie)
 

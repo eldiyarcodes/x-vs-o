@@ -20,13 +20,27 @@ async function gameList(where?: Prisma.GameWhereInput): Promise<GameEntity[]> {
 	return games.map(dbGameToEntity)
 }
 
+async function getGame(where?: Prisma.GameWhereInput) {
+	const game = await prisma.game.findFirst({
+		where,
+		include: {
+			players: true,
+			winner: true,
+		},
+	})
+
+	if (game) return dbGameToEntity(game)
+
+	return undefined
+}
+
 async function createGame(game: GameIdleEntity): Promise<GameEntity> {
 	const createdGame = await prisma.game.create({
 		data: {
 			status: game.status,
 			id: game.id,
 			players: { connect: { id: game.creator.id } },
-			field: Array(9).fill(null),
+			field: game.field,
 		},
 		include: {
 			players: true,
@@ -55,6 +69,7 @@ function dbGameToEntity(
 				id: game.id,
 				creator,
 				status: game.status,
+				field: fieldSchema.parse(game.field),
 			} satisfies GameIdleEntity
 		}
 		case 'inProgress':
@@ -82,4 +97,4 @@ function dbGameToEntity(
 	}
 }
 
-export const gameRepository = { gameList, createGame }
+export const gameRepository = { gameList, createGame, getGame }

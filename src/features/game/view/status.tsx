@@ -1,0 +1,24 @@
+import { GameDomain } from '@/entities/game'
+
+export function GameStatus({ game }: { game: GameDomain.GameEntity }) {
+	switch (game.status) {
+		case 'idle':
+			return <div className='text-lg'>Waiting player</div>
+		case 'inProgress': {
+			return (
+				<div className='text-lg'>
+					Move: {GameDomain.getGameCurrentStep(game)}
+				</div>
+			)
+		}
+		case 'gameOver': {
+			return (
+				<div className='text-lg'>
+					Winner: {GameDomain.getGameCurrentStep(game)}
+				</div>
+			)
+		}
+		case 'gameOverDraw':
+			return <div className='text-lg'>Draw</div>
+	}
+}
