@@ -17,9 +17,9 @@ export async function GamesList() {
 					login={game.creator.login}
 					rating={game.creator.rating}
 					actions={
-						<Button asChild>
-							<Link href={routes.game(game.id)}>Join</Link>
-						</Button>
+						<Link href={routes.game(game.id)}>
+							<Button>Join</Button>
+						</Link>
 					}
 				/>
 			))}
