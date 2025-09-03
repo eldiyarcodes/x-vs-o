@@ -4,20 +4,18 @@ export function GameStatus({ game }: { game: GameDomain.GameEntity }) {
 	switch (game.status) {
 		case 'idle':
 			return <div className='text-lg'>Waiting player</div>
-		case 'inProgress': {
+		case 'inProgress':
 			return (
 				<div className='text-lg'>
-					Move: {GameDomain.getGameCurrentStep(game)}
+					Move: {GameDomain.getGameCurrentSymbol(game)}
 				</div>
 			)
-		}
-		case 'gameOver': {
+		case 'gameOver':
 			return (
 				<div className='text-lg'>
-					Winner: {GameDomain.getGameCurrentStep(game)}
+					Winner: {GameDomain.getPlayerSymbol(game.winner, game)}
 				</div>
 			)
-		}
 		case 'gameOverDraw':
 			return <div className='text-lg'>Draw</div>
 	}
