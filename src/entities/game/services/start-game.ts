@@ -1,5 +1,5 @@
 import { GameId } from '@/kernel/ids'
-import { left } from '@/shared/lib/either'
+import { left, right } from '@/shared/lib/either'
 import { PlayerEntity } from '../domain'
 import { gameRepository } from '../repositories/game-repository'
 
@@ -13,5 +13,5 @@ export async function startGame(gameId: GameId, player: PlayerEntity) {
 	if (game.creator.id === player.id)
 		return left('creator-can-not-start-game' as const)
 
-	gameRepository.startGame(gameId, player)
+	return right(await gameRepository.startGame(gameId, player))
 }
