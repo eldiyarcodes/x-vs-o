@@ -5,6 +5,8 @@ import { z } from 'zod'
 import {
 	GameEntity,
 	GameIdleEntity,
+	GameInProgressEntity,
+	GameOverDrawEntity,
 	GameOverEntity,
 	PlayerEntity,
 } from '../domain'
@@ -35,6 +37,29 @@ async function startGame(gameId: GameId, player: PlayerEntity) {
 					},
 				},
 				status: 'inProgress',
+			},
+			include: gameInclude,
+		})
+	)
+}
+
+async function saveGame(
+	game: GameInProgressEntity | GameOverEntity | GameOverDrawEntity
+) {
+	const winnerId =
+		game.status === 'gameOver'
+			? await prisma.gamePlayer
+					.findFirstOrThrow({ where: { userId: game.winner.id } })
+					.then(p => p.id)
+			: undefined
+
+	return dbGameToEntity(
+		await prisma.game.update({
+			where: { id: game.id },
+			data: {
+				status: game.status,
+				field: game.field,
+				winnerId: winnerId,
 			},
 			include: gameInclude,
 		})
@@ -137,4 +162,5 @@ export const gameRepository = {
 	createGame,
 	getGame,
 	startGame,
+	saveGame,
 }
